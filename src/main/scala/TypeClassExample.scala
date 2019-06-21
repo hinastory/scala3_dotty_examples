@@ -14,7 +14,7 @@ object TypeClassExample {
   }
 
   /** リストモナドのインスタンスを定義 */
-  implied ListMonad for Monad[List] {
+  delegate ListMonad for Monad[List] {
     def (xs: List[A]) flatMap [A, B] (f: A => List[B]): List[B] =
       xs.flatMap(f)
     def pure[A](x: A): List[A] =
@@ -22,7 +22,7 @@ object TypeClassExample {
   }
 
   /** リーダモナドのインスタンスを定義 */
-  implied ReaderMonad[Ctx] for Monad[[X] => Ctx => X] {
+  delegate ReaderMonad[Ctx] for Monad[[X] =>> Ctx => X] {
     def (r: Ctx => A) flatMap [A, B] (f: A => Ctx => B): Ctx => B =
       ctx => f(r(ctx))(ctx)
     def pure[A](x: A): Ctx => A =
@@ -39,14 +39,14 @@ object TypeClassExample {
 /** `TypeClassExample`の利用方法 */
 object TypeClassExampleUseCase {
   import TypeClassExample._
-  import implied TypeClassExample._
+  import delegate TypeClassExample._
 
   def use(): Unit = {
     println( transform(List(1, 2, 3), (_:Int) * 2) ) // List(2, 4, 6)
 
-    /*
-    リーダーモナドの例はずだが・・・
+    /* リーダーモナドの例はずだが・・・
     以下の例は0.13.0-RC1ではコンパイルが終わらない・・・
+    0.16.0-RC3でも同様
     val calc: Int => Int = for {
       x <- (e:Int) => e + 1
       y <- (e:Int) => e * 10

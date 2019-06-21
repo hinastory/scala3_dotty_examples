@@ -1,5 +1,5 @@
 /** 暗黙のインスタンス、推論可能パラメータのサンプル */
-object ImpliedExample {
+object DelegateExample {
   /** 順序型の定義 */
   trait Ord[T] {
     def compare(x: T, y: T): Int
@@ -8,13 +8,13 @@ object ImpliedExample {
   }
 
   /** 順序型のIntの暗黙のインスタンスの定義 */
-  implied IntOrd for Ord[Int] {
+  delegate IntOrd for Ord[Int] {
     def compare(x: Int, y: Int) =
       if (x < y) -1 else if (x > y) +1 else 0
   }
 
   /** 順序型のListの暗黙のインスタンスの定義 */
-  implied ListOrd[T] given (ord: Ord[T]) for Ord[List[T]] {
+  delegate ListOrd[T] for Ord[List[T]] given (ord: Ord[T]) {
     def compare(xs: List[T], ys: List[T]): Int = (xs, ys) match {
       case (Nil, Nil) => 0
       case (Nil, _) => -1 // 空リストよりも非空リストの方が大きい
@@ -44,10 +44,10 @@ object ImpliedExample {
   def minimum[T](xs: List[T]) given Ord[T] = maximum(xs) given descending
 }
 
-/** `ImpliedExapmple`の利用方法 */
-object ImpliedExampleUseCase {
-  import ImpliedExample._
-  import implied ImpliedExample._ // `Ord`の`<`演算子を利用するのに必要
+/** `DelegateExapmple`の利用方法 */
+object DelegateExampleUseCase {
+  import DelegateExample._
+  import delegate DelegateExample._ // `Ord`の`<`演算子を利用するのに必要
 
   def use(): Unit = {
     println( max(2,3) ) // 3

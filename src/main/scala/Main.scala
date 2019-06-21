@@ -1,4 +1,4 @@
 object Main extends App {
-  ImpliedExampleUseCase.use()
+  DelegateExampleUseCase.use()
   TypeClassExampleUseCase.use()
 }
