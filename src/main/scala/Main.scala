@@ -1,4 +1,8 @@
 object Main extends App {
-  DelegateExampleUseCase.use()
-  TypeClassExampleUseCase.use()
+  def contextualAbstractions() = {
+    DelegateExampleUseCase.use()
+    TypeClassExampleUseCase.use()
+  }
+
+  contextualAbstractions()
 }
