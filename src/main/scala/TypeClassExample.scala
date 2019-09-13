@@ -46,13 +46,14 @@ object TypeClassExampleUseCase {
 
     /* リーダーモナドの例はずだが・・・
     以下の例は0.13.0-RC1ではコンパイルが終わらない・・・
-    0.16.0-RC3でも同様
+    0.16.0-RC3でも同様に終わらない
+    O.18.1-RC1で動いた!
+    */
     val calc: Int => Int = for {
       x <- (e:Int) => e + 1
       y <- (e:Int) => e * 10
     } yield x + y
 
     println( calc(3) ) // 34
-    */
   }
 }
