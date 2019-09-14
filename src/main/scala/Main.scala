@@ -4,4 +4,5 @@
   TypeClassExampleUseCase.use()
 
   // Significant Indentation
-  IndentBaseExample.use("Monday")
+  IndentBasedExample.use("Monday")
+  BraceBasedExample.use("Monday")

@@ -32,5 +32,5 @@ And then execute:
 ```scala
 ImpliedExampleUseCase.use()
 TypeClassExampleUseCase.use()
-IndentBaseExample.use("Monday")
+IndentBasedExample.use("Monday")
 ```
