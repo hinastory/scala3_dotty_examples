@@ -1,8 +1,7 @@
-object Main extends App {
-  def contextualAbstractions() = {
-    DelegateExampleUseCase.use()
-    TypeClassExampleUseCase.use()
-  }
+@main def example: Unit =
+  // contextual Abstractions
+  DelegateExampleUseCase.use()
+  TypeClassExampleUseCase.use()
 
-  contextualAbstractions()
-}
+  // Significant Indentation
+  IndentBaseExample.use("Monday")
