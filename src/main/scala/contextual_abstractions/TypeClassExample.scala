@@ -17,13 +17,13 @@ object TypeClassExampleDefs {
     def apply[T](given Monoid[T]) = summon[Monoid[T]]
   }
 
-  /** 文字列のモノイド */
+  /** `String`モノイド */
   given Monoid[String] {
     def (x: String) combine (y: String): String = x.concat(y)
     def unit: String = ""
   }
 
-  /** 数値のモノイド */
+  /** `Int`モノイド */
   given Monoid[Int] {
     def (x: Int) combine (y: Int): Int = x + y
     def unit: Int = 0
@@ -75,16 +75,12 @@ object TypeClassExample {
   import TypeClassExampleDefs.{given, _}
 
   def use(): Unit = {
-    println( sum(List("abc", "def", "gh")) ) // 文字列の和
-    println( sum(List(1, 2, 3)) ) // 数値の和
+    println( sum(List("abc", "def", "gh")) ) // abcdefgh
+    println( sum(List(1, 2, 3)) ) // 6
 
     println( transform(List(1, 2, 3), (_:Int) * 2) ) // List(2, 4, 6)
 
-    /* リーダーモナドの例はずだが・・・
-    以下の例は0.13.0-RC1ではコンパイルが終わらない・・・
-    0.16.0-RC3でも同様に終わらない
-    O.18.1-RC1で動いた!
-    */
+    // Reader Monad Example
     val calc: Int => Int = for {
       x <- (e:Int) => e + 1
       y <- (e:Int) => e * 10
