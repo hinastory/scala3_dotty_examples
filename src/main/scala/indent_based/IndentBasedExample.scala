@@ -1,5 +1,5 @@
-object IndentBasedExample:
-  enum Day:
+object OptionalBraceExample
+  enum Day
     case Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
     def isWeekend: Boolean = this match
       case Saturday | Sunday => true
@@ -33,6 +33,7 @@ object IndentBasedExample:
     case Some(x) if x > 4 => println("bigger than 4")
     case _ => println("Other")
 
+    // required `-Yindent-colons`
     val z = List(2, 3, 4) map:
       x =>
         val y = x - 1

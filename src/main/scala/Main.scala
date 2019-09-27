@@ -1,8 +1,8 @@
 @main def example: Unit =
-  // contextual Abstractions
-  DelegateExampleUseCase.use()
-  TypeClassExampleUseCase.use()
+  // Contextual Abstractions
+  GivenExample.use()
+  TypeClassExample.use()
 
-  // Significant Indentation
-  IndentBasedExample.use("Monday")
+  // Optional Brace
+  OptionalBraceExample.use("Monday")
   BraceBasedExample.use("Monday")

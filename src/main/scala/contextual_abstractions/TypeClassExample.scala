@@ -1,5 +1,39 @@
 /** 型クラスのサンプル */
-object TypeClassExample {
+object TypeClassExampleDefs {
+  /** 半群の型クラス */
+  trait SemiGroup[T] {
+    def (x: T) combine (y: T): T
+  }
+
+  /**モノイドの型クラス */
+  trait Monoid[T] extends SemiGroup[T] {
+    def unit: T
+  }
+
+  /** applyでモノイドを召喚
+   * `summon`は`implicitly`相当
+   */
+  object Monoid {
+    def apply[T](given Monoid[T]) = summon[Monoid[T]]
+  }
+
+  /** 文字列のモノイド */
+  given Monoid[String] {
+    def (x: String) combine (y: String): String = x.concat(y)
+    def unit: String = ""
+  }
+
+  /** 数値のモノイド */
+  given Monoid[Int] {
+    def (x: Int) combine (y: Int): Int = x + y
+    def unit: Int = 0
+  }
+
+  /** モノイドの和を求める */
+  def sum[T: Monoid](xs: List[T]): T =
+    xs.foldLeft(Monoid[T].unit)(_.combine(_))
+
+
   /** 関手の型クラス */
   trait Functor[F[_]] {
     def (x: F[A]) map [A, B] (f: A => B): F[B]
@@ -14,7 +48,7 @@ object TypeClassExample {
   }
 
   /** リストモナドのインスタンスを定義 */
-  delegate ListMonad for Monad[List] {
+  given listMonad: Monad[List] {
     def (xs: List[A]) flatMap [A, B] (f: A => List[B]): List[B] =
       xs.flatMap(f)
     def pure[A](x: A): List[A] =
@@ -22,7 +56,7 @@ object TypeClassExample {
   }
 
   /** リーダモナドのインスタンスを定義 */
-  delegate ReaderMonad[Ctx] for Monad[[X] =>> Ctx => X] {
+  given readerMonad[Ctx]: Monad[[X] =>> Ctx => X] {
     def (r: Ctx => A) flatMap [A, B] (f: A => Ctx => B): Ctx => B =
       ctx => f(r(ctx))(ctx)
     def pure[A](x: A): Ctx => A =
@@ -30,18 +64,20 @@ object TypeClassExample {
   }
 
   /** 関手の利用 */
-  def transform[F[_], A, B](src: F[A], func: A => B) given Functor[F]: F[B] = src.map(func)
+  def transform[F[_], A, B](src: F[A], func: A => B)(given Functor[F]): F[B] = src.map(func)
 
   /** コンテキスト境界を使った書き換え */
   def transform2[F[_]: Functor, A, B](src: F[A], func: A => B): F[B] = src.map(func)
 }
 
-/** `TypeClassExample`の利用方法 */
-object TypeClassExampleUseCase {
-  import TypeClassExample._
-  import delegate TypeClassExample._
+/** `TypeClassExampleDefs`の利用方法 */
+object TypeClassExample {
+  import TypeClassExampleDefs.{given, _}
 
   def use(): Unit = {
+    println( sum(List("abc", "def", "gh")) ) // 文字列の和
+    println( sum(List(1, 2, 3)) ) // 数値の和
+
     println( transform(List(1, 2, 3), (_:Int) * 2) ) // List(2, 4, 6)
 
     /* リーダーモナドの例はずだが・・・
