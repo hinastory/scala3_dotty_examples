@@ -17,11 +17,15 @@ object OptionalBraceExample
     val day = fromString(dayString)
 
     if day.isWeekend then
-        println("Today is a weekend")
-        println("I will rest")
+      println("Today is a weekend")
+      println("I will rest")
     else
       println("Today is a workday")
       println("I will work")
+
+    if (day == Day.Wednesday)
+      println("Today is a Wednesday")
+      println("Bad Day")
 
     val optNum =
       for
@@ -69,6 +73,11 @@ object BraceBasedExample {
     } else {
       println("Today is a workday")
       println("I will work")
+    }
+
+    if (day == Day.Wednesday) {
+      println("Today is a Wednesday")
+      println("Bad Day")
     }
 
     val optNum =
