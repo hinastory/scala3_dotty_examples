@@ -7,9 +7,10 @@ object OptionalBraceExample
 
   def fromString(str: String): Day =
     try Day.valueOf(str)
-    catch
-      case _: IllegalArgumentException =>
-        throw new IllegalArgumentException(s"$str is not a valid day")
+      catch
+        case _: IllegalArgumentException =>
+          throw new IllegalArgumentException(s"$str is not a valid day")
+    end try
   end fromString
 
   def use(dayString: String) =
