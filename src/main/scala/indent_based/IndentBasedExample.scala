@@ -16,6 +16,7 @@ object OptionalBraceExample
   def use(dayString: String) =
     val day = fromString(dayString)
 
+    // `then` is optional at line end
     if day.isWeekend then
       println("Today is a weekend")
       println("I will rest")
