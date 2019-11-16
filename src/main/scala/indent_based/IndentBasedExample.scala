@@ -13,6 +13,18 @@ object OptionalBraceExample
     end try
   end fromString
 
+  trait A with
+    def f: Int
+
+  class B with
+    def g: Int = 27
+
+  class C(x: Int) extends B with A with
+    def f = x
+
+  type T = A with
+    def f: Int
+
   def use(dayString: String) =
     val day = fromString(dayString)
 
@@ -38,6 +50,8 @@ object OptionalBraceExample
     optNum match
     case Some(x) if x > 4 => println("bigger than 4")
     case _ => println("Other")
+
+    println(s"B().g is ${B().g}.")
 
     // required `-Yindent-colons`
     val z = List(2, 3, 4) map:
@@ -65,6 +79,22 @@ object BraceBasedExample {
     }
   }
 
+  trait A {
+    def f: Int
+  }
+
+  class B {
+    def g: Int = 27
+  }
+
+  class C(x: Int) extends B with A {
+    def f = x
+  }
+
+  type T = A {
+    def f: Int
+  }
+
   def use(dayString: String) = {
     val day = fromString(dayString)
 
@@ -80,6 +110,8 @@ object BraceBasedExample {
       println("Today is a Wednesday")
       println("Bad Day")
     }
+
+    println(s"B().g is ${B().g}.")
 
     val optNum =
       for {
