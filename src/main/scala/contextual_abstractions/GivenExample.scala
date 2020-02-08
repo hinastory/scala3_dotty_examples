@@ -1,4 +1,4 @@
-/** `given`インスタンス、`given`パラメータのサンプル */
+/** `given`インスタンス、`using`節のサンプル */
 object GivenExampleDefs {
   /** 順序型の定義 */
   trait Ord[T] {
@@ -25,17 +25,17 @@ object GivenExampleDefs {
     }
   }
 
-  /** `given`パラメータ */
+  /** `using`節 */
   def max[T](x: T, y: T)(using ord: Ord[T]): T =
     if (ord.compare(x, y) < 1) y else x
 
-  /** 無名`given`パラメータ */
+  /** 無名`using`節 */
   def maximum[T](xs: List[T])(using Ord[T]): T = xs.reduceLeft(max)
 
   /** コンテキスト境界使った書き換え(Scala2と同様) */
   def maximum2[T: Ord](xs: List[T]): T = xs.reduceLeft(max)
 
-  /** `given`パラメータを使って新しい逆順序型クラスインスタンスを作る関数 */
+  /** `using`節を使って新しい逆順序型クラスインスタンスを作る関数 */
   def descending[T](using asc: Ord[T]): Ord[T] = new Ord[T] {
     def compare(x: T, y: T) = asc.compare(y, x)
   }
