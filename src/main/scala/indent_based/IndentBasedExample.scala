@@ -26,6 +26,7 @@ object OptionalBraceExample
     def f: Int
 
   def use(dayString: String) =
+    println("\n--- start OptionalBraceExample ---")
     val day = fromString(dayString)
 
     // `then` is optional at line end
@@ -96,6 +97,7 @@ object BraceBasedExample {
   }
 
   def use(dayString: String) = {
+    println("\n--- start BraceBasedExample ---")
     val day = fromString(dayString)
 
     if (day.isWeekend) {

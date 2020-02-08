@@ -1,20 +1,19 @@
-/** 型クラスのサンプル */
+ /** 型クラスのサンプル */
 object TypeClassExampleDefs {
+  import annotation.infix
   /** 半群の型クラス */
   trait SemiGroup[T] {
-    def (x: T) combine (y: T): T
+    @infix def (x: T) combine (y: T): T
   }
 
-  /**モノイドの型クラス */
+  /** モノイドの型クラス */
   trait Monoid[T] extends SemiGroup[T] {
     def unit: T
   }
 
-  /** applyでモノイドを召喚
-   * `summon`は`implicitly`相当
-   */
+  /** applyでモノイドを召喚 */
   object Monoid {
-    def apply[T](given Monoid[T]) = summon[Monoid[T]]
+    def apply[T](using m: Monoid[T]) = m
   }
 
   /** `String`モノイド */
@@ -31,40 +30,39 @@ object TypeClassExampleDefs {
 
   /** モノイドの和を求める */
   def sum[T: Monoid](xs: List[T]): T =
-    xs.foldLeft(Monoid[T].unit)(_.combine(_))
-
+    xs.foldLeft(Monoid[T].unit)(_ combine _)
 
   /** 関手の型クラス */
   trait Functor[F[_]] {
-    def (x: F[A]) map [A, B] (f: A => B): F[B]
+    def [A, B](x: F[A]).map(f: A => B): F[B]
   }
 
   /** モナドの型クラス */
   trait Monad[F[_]] extends Functor[F] {
-    def (x: F[A])flatMap [A, B] (f: A => F[B]): F[B]
-    def (x: F[A])map [A, B] (f: A => B) = x.flatMap(f `andThen` pure)
+    def [A, B](x: F[A]).flatMap(f: A => F[B]): F[B]
+    def [A, B](x: F[A]).map(f: A => B) = x.flatMap(f `andThen` pure)
 
     def pure[A](x: A): F[A]
   }
 
   /** リストモナドのインスタンスを定義 */
-  given listMonad: Monad[List] {
-    def (xs: List[A]) flatMap [A, B] (f: A => List[B]): List[B] =
+  given listMonad as Monad[List] {
+    def [A, B](xs: List[A]).flatMap(f: A => List[B]): List[B] =
       xs.flatMap(f)
     def pure[A](x: A): List[A] =
       List(x)
   }
 
   /** リーダモナドのインスタンスを定義 */
-  given readerMonad[Ctx]: Monad[[X] =>> Ctx => X] {
-    def (r: Ctx => A) flatMap [A, B] (f: A => Ctx => B): Ctx => B =
+  given readerMonad[Ctx] as Monad[[X] =>> Ctx => X] {
+    def [A, B](r: Ctx => A).flatMap(f: A => Ctx => B): Ctx => B =
       ctx => f(r(ctx))(ctx)
     def pure[A](x: A): Ctx => A =
       ctx => x
   }
 
   /** 関手の利用 */
-  def transform[F[_], A, B](src: F[A], func: A => B)(given Functor[F]): F[B] = src.map(func)
+  def transform[F[_], A, B](src: F[A], func: A => B)(using Functor[F]): F[B] = src.map(func)
 
   /** コンテキスト境界を使った書き換え */
   def transform2[F[_]: Functor, A, B](src: F[A], func: A => B): F[B] = src.map(func)
@@ -75,8 +73,10 @@ object TypeClassExample {
   import TypeClassExampleDefs.{given, _}
 
   def use(): Unit = {
+    println("\n--- start TypeClassExample ---")
     println( sum(List("abc", "def", "gh")) ) // abcdefgh
     println( sum(List(1, 2, 3)) ) // 6
+    println( summon[Monad[List]].pure(12) ) // List(12)
 
     println( transform(List(1, 2, 3), (_:Int) * 2) ) // List(2, 4, 6)
 
