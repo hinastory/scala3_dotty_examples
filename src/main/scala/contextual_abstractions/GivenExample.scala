@@ -41,7 +41,7 @@ object GivenExampleDefs {
   }
 
   /** より複雑な推論 */
-  def minimum[T](xs: List[T])(using Ord[T]) = maximum(xs)(given descending)
+  def minimum[T](xs: List[T])(using Ord[T]) = maximum(xs)(using descending)
 }
 
 /** `GivenExapmple`の利用方法 */
