@@ -1,5 +1,5 @@
-object OptionalBraceExample
-  enum Day
+object OptionalBraceExample:
+  enum Day:
     case Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
     def isWeekend: Boolean = this match
       case Saturday | Sunday => true
@@ -13,16 +13,16 @@ object OptionalBraceExample
     end try
   end fromString
 
-  trait A with
+  trait A:
     def f: Int
 
-  class B with
+  class B:
     def g: Int = 27
 
-  class C(x: Int) extends B with A with
+  class C(x: Int) extends B with A:
     def f = x
 
-  type T = A with
+  type T = A:
     def f: Int
 
   def use(dayString: String) =

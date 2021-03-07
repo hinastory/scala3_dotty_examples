@@ -1,31 +1,27 @@
-# Examples of Dotty (Scala 3)
+# Examples of Scala 3(Dotty)
 
-This repository is for trying out the following Dotty(Scala 3) features:
+This repository is for trying out the following Scala 3(Dotty) features:
 
+- Indent-based Syntax
+    - [New Control Syntax](https://dotty.epfl.ch/docs/reference/other-new-features/control-syntax.html)
+    - [Optional Braces](https://dotty.epfl.ch/docs/reference/other-new-features/indentation.html)
 - Contextual Abstractions
-  - [Given Instances](https://dotty.epfl.ch/docs/reference/contextual/delegates.html)
-  - [Given Parameters](https://dotty.epfl.ch/docs/reference/contextual/given-clauses.html)
-  - [Import Given](https://dotty.epfl.ch/docs/reference/contextual/import-delegate.html)
+  - [Given Instances](https://dotty.epfl.ch/docs/reference/contextual/givens.html)
+  - [Using Clauses](https://dotty.epfl.ch/docs/reference/contextual/using-clauses.html)
+  - [Importing Givens](https://dotty.epfl.ch/docs/reference/contextual/given-imports.html)
   - [Extension Methods](https://dotty.epfl.ch/docs/reference/contextual/extension-methods.html)
-  - [Implementing Typeclasses](https://dotty.epfl.ch/docs/reference/contextual/typeclasses.html)
-- [Optional Braces](https://dotty.epfl.ch/docs/reference/other-new-features/indentation.html)
+  - [Implementing Typeclasses](https://dotty.epfl.ch/docs/reference/contextual/type-classes.html)
 
 This repository uses some example code from the following documents:
 
-- [Announcing Dotty 0.13.0-RC1 with Spark support, top level definitions and redesigned implicits](https://dotty.epfl.ch/blog/2019/03/05/13th-dotty-milestone-release.html)
-- [Announcing Dotty 0.18.1-RC1 – switch to the 2.13 standard library, indentation-based syntax and other experiments](https://dotty.epfl.ch/blog/2019/08/30/18th-dotty-milestone-release.html)
-- [Announcing Dotty 0.19.0-RC1 – further refinements of the syntax and the migration to 2.13.1 standard library](https://dotty.epfl.ch/blog/2019/09/23/19th-dotty-milestone-release.html)
-- [Announcing Dotty 0.20.0-RC1 – `with` starting indentation blocks, inline given specializations and more](http://dotty.epfl.ch/blog/2019/11/04/20th-dotty-milestone-release.html)
-- [Announcing Dotty 0.21.0-RC1 - explicit nulls, new syntax for `match` and conditional givens, and more](https://dotty.epfl.ch/blog/2019/12/20/21th-dotty-milestone-release.html)
-- [Announcing Dotty 0.22.0-RC1 - syntactic enhancements, type-level arithmetic and more](https://dotty.epfl.ch/blog/2020/02/05/22nd-dotty-milestone-release.html)
 - [Dotty Documentation](https://dotty.epfl.ch/docs/)
 
+ The examples in this repository support `3.0.0-RC1` syntax.
 ## Requirements
 
 - JDK
-- Scala
 - [sbt](https://www.scala-sbt.org/)
-
+    - 1.1.4+
 ## Usage
 
 You can execute:
